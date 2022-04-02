@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 import datetime
 from .models import *
+from django.db.models import Q
 # Create your views here.
 
 
@@ -37,10 +38,10 @@ def view(request):
 
 
 def remove(request, emp_id=0):
-    print(emp_id)   
+    print(emp_id)
     if emp_id != 0:
         try:
-            emp_to_be_removed = Employee.objects.get(id = int(emp_id))
+            emp_to_be_removed = Employee.objects.get(id=int(emp_id))
             emp_to_be_removed.delete()
             return HttpResponse("Employee deleted")
         except Exception as e:
@@ -52,4 +53,23 @@ def remove(request, emp_id=0):
 
 
 def filter(request):
-    return render(request, 'filter_emp.html')
+    if request.method == 'POST':
+        name = request.POST['name']
+        dept = request.POST['dept']
+        role = request.POST['role']
+        emps = Employee.objects.all()
+        if name:
+            emps = emps.filter(Q(first_name__icontains=name)
+                               | Q(last_name__icontains=name))
+        if dept:
+            emps = emps.filter(dept__name=dept)
+        if role:
+            emps = emps.filter(role__name=role)
+        context = {
+            "emps": emps,
+        }
+        return render(request, 'filter_emp.html', context=context)
+    elif request.method=='GET':
+        return render(request, 'filter_emp.html')
+    else:
+        return HttpResponse("An error occured")
