@@ -24,8 +24,8 @@ def add(request):
     elif request.method == 'GET':
         depts = Department.objects.all()
         roles = Role.objects.all()
-        c = {"depts": depts, "roles": roles, }
-        return render(request, 'add_emp.html', context=c)
+        context = {"depts": depts, "roles": roles, }
+        return render(request, 'add_emp.html', context=context)
     else:
         return HttpResponse("Error Occured")
 
@@ -36,8 +36,19 @@ def view(request):
     return render(request, 'view_all.html', context=context)
 
 
-def remove(request):
-    return render(request, 'remove_emp.html')
+def remove(request, emp_id=0):
+    print(emp_id)   
+    if emp_id != 0:
+        try:
+            emp_to_be_removed = Employee.objects.get(id = int(emp_id))
+            emp_to_be_removed.delete()
+            return HttpResponse("Employee deleted")
+        except Exception as e:
+            print(e)
+            return HttpResponse("Invalid Employee")
+    emp = Employee.objects.all()
+    context = {"emps": emp, }
+    return render(request, 'remove_emp.html', context=context)
 
 
 def filter(request):
