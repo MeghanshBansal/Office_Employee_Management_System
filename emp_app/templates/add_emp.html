@@ -11,41 +11,71 @@
 </head>
 
 <body>
-    <div class="container" style="text-align: center;">
-        <h1 class="fw-bold">Add an Employee</h1>
+    <div class="container">
+        <h1 class="fw-bold" style="text-align: center;">Add an Employee</h1>
         <hr>
         <form method="post" action="/add_emp/">
             {% csrf_token %}
-            <div class="mb-3">
-                <label for="first_name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="first_name" name="first_name">
-            </div>
-            <div class="mb-3">
-                <label for="last_name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="last_name" name="last_name">
-            </div>
-            <div class="mb-3">
-                <label for="dept" class="form-label">Department</label>
-                <input type="number" class="form-control" id="dept" name="dept">
-            </div>
-            <div class="mb-3">
-                <label for="salary" class="form-label">Salary</label>
-                <input type="number" class="form-control" id="salary" name="salary">
-            </div>
-            <div class="mb-3">
-                <label for="bonus" class="form-label">Bonus</label>
-                <input type="number" class="form-control" id="bonus" name="bonus">
-            </div>
-            <div class="mb-3">
-                <label for="role" class="form-label">Role</label>
-                <input type="number" class="form-control" id="role" name="role">
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="number" class="form-control" id="phone" name="phone">
-            </div>
+
+            <label for="first_name">First Name</label><br>
+            <input type="text" id="first_name" name="first_name"><br>
+
+            <label for="last_name">Last Name</label><br>
+            <input type="text" id="last_name" name="last_name"><br>
+
+            <label for="dept">Department</label><br>
+            <input type="number" id="dept" name="dept"><br>
+
+            <label for="salary">Salary</label><br>
+            <input type="number" id="salary" name="salary"><br>
+
+            <label for="bonus">Bonus</label><br>
+            <input type="number" id="bonus" name="bonus"><br>
+
+            <label for="role">Role</label><br>
+            <input type="number" id="role" name="role"><br>
+
+            <label for="phone">Phone Number</label><br>
+            <input type="number" id="phone" name="phone"><br>
+            <hr>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <div class="d-flex justify-content-center align-self-start">
+            <table class="table table-striped mx-4">
+                <!-- <caption>Departments</caption> -->
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                {% for dept in depts %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{dept.id}}</th>
+                        <td>{{dept.name}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <table class="table table-striped mt-4 mx-4">
+                <!-- <caption>Roles</caption> -->
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                {% for role in roles %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{role.id}}</th>
+                        <td>{{role.name}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 
     <!-- <script type="text/javascript">

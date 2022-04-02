@@ -22,7 +22,10 @@ def add(request):
         new_emp.save()
         return HttpResponse("Employee Created")
     elif request.method == 'GET':
-        return render(request, 'add_emp.html')
+        depts = Department.objects.all()
+        roles = Role.objects.all()
+        c = {"depts": depts, "roles": roles, }
+        return render(request, 'add_emp.html', context=c)
     else:
         return HttpResponse("Error Occured")
 
