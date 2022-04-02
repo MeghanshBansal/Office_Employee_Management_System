@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .models import Department, Role, Employee
 # Create your views here.
 
 
@@ -12,7 +12,10 @@ def add(request):
 
 
 def view(request):
-    return render(request, 'view_all.html')
+    emp = Employee.objects.all()
+    context = {"emps": emp, }
+    print(context)
+    return render(request, 'view_all.html', context=context)
 
 
 def remove(request):
