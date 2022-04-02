@@ -1,6 +1,3 @@
-from email.policy import default
-from pyexpat import model
-from turtle import ondrag
 from django.db import models
 
 # Create your models here.

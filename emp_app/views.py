@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Department, Role, Employee
+from django.shortcuts import render, HttpResponse
+import datetime
+from .models import *
 # Create your views here.
 
 
@@ -8,13 +9,27 @@ def index(request):
 
 
 def add(request):
-    return render(request, 'add_emp.html')
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        dept = int(request.POST['dept'])
+        salary = int(request.POST['salary'])
+        bonus = int(request.POST['bonus'])
+        role = int(request.POST['role'])
+        phone = int(request.POST['phone'])
+        new_emp = Employee(first_name=first_name, last_name=last_name, dept_id=dept, salary=salary,
+                           bonus=bonus, role_id=role, phone=phone, hire_date=datetime.date.today())
+        new_emp.save()
+        return HttpResponse("Employee Created")
+    elif request.method == 'GET':
+        return render(request, 'add_emp.html')
+    else:
+        return HttpResponse("Error Occured")
 
 
 def view(request):
     emp = Employee.objects.all()
     context = {"emps": emp, }
-    print(context)
     return render(request, 'view_all.html', context=context)
 
 
